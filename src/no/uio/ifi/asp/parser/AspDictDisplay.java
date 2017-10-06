@@ -7,11 +7,11 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AspDictDisplay extends AspSyntax {
 
-    ArrayList<AspExpr> items = new ArrayList<>();
+    HashMap<String, AspExpr> items = new HashMap<>();
 
     AspDictDisplay(int n) {
         super(n);
@@ -26,8 +26,9 @@ public class AspDictDisplay extends AspSyntax {
         if (s.curToken().kind == TokenKind.stringToken) {
             while (true) {
                 skip(s, TokenKind.stringToken);
+                String key = s.curToken().stringLit;
                 skip(s, TokenKind.colonToken);
-                dictDisplay.items.add(AspExpr.parse(s));
+                dictDisplay.items.put(key, AspExpr.parse(s));
                 if (s.curToken().kind != TokenKind.commaToken) break;
                 skip(s, TokenKind.commaToken);
             }

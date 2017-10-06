@@ -28,7 +28,7 @@ public class AspIntegerLiteral extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite(value.toString());
     }
 
     @Override

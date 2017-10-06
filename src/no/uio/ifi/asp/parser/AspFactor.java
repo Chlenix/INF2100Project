@@ -17,7 +17,16 @@ public class AspFactor extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        boolean printed = false;
+        for (AspPrimary primary : primaries) {
+            if (prefix != null) {
+                prefix.prettyPrint();
+            }
+            if (printed) {
+                factorOpr.prettyPrint();
+            }
+            primary.prettyPrint();
+        }
     }
 
     public static AspFactor parse(Scanner s) {

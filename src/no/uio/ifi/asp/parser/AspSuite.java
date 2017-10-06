@@ -7,9 +7,11 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
+import java.util.ArrayList;
+
 public class AspSuite extends AspSyntax {
 
-    AspStmt scope = null;
+    ArrayList<AspStmt> statements = new ArrayList<>();
 
     AspSuite(int n) {
         super(n);
@@ -23,8 +25,10 @@ public class AspSuite extends AspSyntax {
         skip(s, TokenKind.newLineToken);
         skip(s, TokenKind.indentToken);
 
-        suite.scope = AspStmt.parse(s);
-
+        while (true) {
+            suite.statements.add(AspStmt.parse(s));
+            if (s.curToken().kind == TokenKind.dedentToken) break;
+        }
         skip(s, TokenKind.dedentToken);
 
         Main.log.leaveParser("suite");
@@ -33,7 +37,13 @@ public class AspSuite extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWriteLn();
+        Main.log.prettyIndent();
+        for (AspStmt stmt : statements) {
+            // TODO
+            stmt.prettyPrint();
+        }
+        Main.log.prettyDedent();
     }
 
     @Override

@@ -6,9 +6,8 @@ import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
-public class AspAtom<T> extends AspSyntax {
+public class AspAtom<T extends AspSyntax> extends AspSyntax {
 
-    // check with instance of later
     T t = null;
 
     public static AspAtom parse(Scanner s) {
@@ -53,7 +52,7 @@ public class AspAtom<T> extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        t.prettyPrint();
     }
 
     @Override

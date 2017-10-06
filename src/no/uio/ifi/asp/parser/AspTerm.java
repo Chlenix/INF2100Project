@@ -31,6 +31,14 @@ public class AspTerm extends AspSyntax {
     @Override
     void prettyPrint() {
 
+        boolean printed = false;
+        for (AspFactor f : factors) {
+            if (printed) {
+                termOpr.prettyPrint();
+            }
+            f.prettyPrint();
+            printed = true;
+        }
     }
 
     @Override

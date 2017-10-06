@@ -9,7 +9,7 @@ import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspReturnStmt extends AspSyntax {
 
-    AspExpr returnValue;
+    AspExpr returnValue = null;
 
     AspReturnStmt(int n) {
         super(n);

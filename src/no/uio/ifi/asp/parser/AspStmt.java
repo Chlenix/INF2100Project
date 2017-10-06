@@ -6,7 +6,7 @@ import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
-public class AspStmt<T> extends AspSyntax {
+public class AspStmt<T extends AspSyntax> extends AspSyntax {
 
     T t = null;
 
@@ -16,7 +16,9 @@ public class AspStmt<T> extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        if (t != null) {
+            t.prettyPrint();
+        }
     }
 
     public static AspStmt parse(Scanner s) {

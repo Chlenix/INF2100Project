@@ -34,6 +34,14 @@ public class AspComparison extends AspSyntax {
     @Override
     void prettyPrint() {
 
+        boolean printed = false;
+        for (AspTerm term : terms) {
+            if (printed) {
+                compOpr.prettyPrint();
+            }
+            term.prettyPrint();
+            printed = true;
+        }
     }
 
     @Override

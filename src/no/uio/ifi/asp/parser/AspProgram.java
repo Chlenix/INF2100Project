@@ -29,7 +29,11 @@ public class AspProgram extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        //-- Must be changed in part 2:
+
+        for (AspStmt stmt : stmts) {
+            stmt.prettyPrint();
+            Main.log.prettyWriteLn();
+        }
     }
 
 

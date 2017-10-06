@@ -14,7 +14,10 @@ public class AspPrimary extends AspSyntax {
     AspAtom atom = null;
     @Override
     void prettyPrint() {
-
+        atom.prettyPrint();
+        for (AspPrimarySuffix suffix : suffixes) {
+            suffix.prettyPrint();
+        }
     }
 
     public static AspPrimary parse(Scanner s) {

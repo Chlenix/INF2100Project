@@ -8,6 +8,7 @@ import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class AspIfStmt extends AspSyntax {
 
@@ -52,6 +53,12 @@ public class AspIfStmt extends AspSyntax {
 
     @Override
     void prettyPrint() {
+        Main.log.prettyWrite("if ");
+        for (HashMap.Entry<AspExpr, AspSuite> block : blocks.entrySet()) {
+            block.getKey().prettyPrint();
+            Main.log.prettyWrite(":");
+            block.getValue().prettyPrint();
+        }
 
     }
 
