@@ -39,6 +39,7 @@ public class AspTerm extends AspSyntax {
             f.prettyPrint();
             printed = true;
         }
+
     }
 
     @Override

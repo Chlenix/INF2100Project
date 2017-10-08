@@ -9,9 +9,9 @@ import no.uio.ifi.asp.scanner.TokenKind;
 
 import java.util.ArrayList;
 
-public class AspPrimarySuffix extends AspSyntax {
-    AspSubscription subscription = null;
-    AspArguments arguments = null;
+public class AspPrimarySuffix<T extends AspSyntax> extends AspSyntax {
+    // either a subscription or an argument
+    T suffix = null;
 
     public static AspPrimarySuffix parse(Scanner s) {
         Main.log.enterParser("primary suffix");
@@ -20,10 +20,10 @@ public class AspPrimarySuffix extends AspSyntax {
 
         if (s.curToken().kind == TokenKind.leftParToken) {
             // arguments
-            primarySuffix.arguments = AspArguments.parse(s);
+            primarySuffix.suffix = AspArguments.parse(s);
         } else {
             // guaranteed to be subscription by Primary while condition
-            primarySuffix.subscription = AspSubscription.parse(s);
+            primarySuffix.suffix = AspSubscription.parse(s);
         }
         Main.log.leaveParser("primary suffix");
         return primarySuffix;
@@ -31,7 +31,15 @@ public class AspPrimarySuffix extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        String opening = "(";
+        String closing = ")";
+        if (suffix instanceof AspSubscription) {
+            opening = "[";
+            closing = "]";
+        }
+        Main.log.prettyWrite(opening);
+        suffix.prettyPrint();
+        Main.log.prettyWrite(closing);
     }
 
     @Override

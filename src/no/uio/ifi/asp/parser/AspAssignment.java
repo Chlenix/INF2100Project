@@ -14,7 +14,7 @@ public class AspAssignment extends AspSyntax {
 
     AspName name = null;
     AspExpr expr = null;
-    ArrayList<AspSubscription> subs = new ArrayList<>();
+    ArrayList<AspSubscription> subs = new ArrayList<>(); // optional
 
     @Override
     void prettyPrint() {

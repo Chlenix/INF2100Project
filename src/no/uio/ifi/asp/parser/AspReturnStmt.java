@@ -29,7 +29,8 @@ public class AspReturnStmt extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite("return ");
+        returnValue.prettyPrint();
     }
 
     @Override

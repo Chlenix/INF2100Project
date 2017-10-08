@@ -59,6 +59,10 @@ public class AspIfStmt extends AspSyntax {
             Main.log.prettyWrite(":");
             block.getValue().prettyPrint();
         }
+        if (elseSuite != null) {
+            Main.log.prettyWrite("else:");
+            elseSuite.prettyPrint();
+        }
 
     }
 
