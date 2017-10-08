@@ -28,6 +28,7 @@ public class AspStringLiteral extends AspSyntax {
 
     @Override
     void prettyPrint() {
+        Main.log.prettyWrite(value);
     }
 
     @Override

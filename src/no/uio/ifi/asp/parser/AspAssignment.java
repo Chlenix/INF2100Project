@@ -18,7 +18,10 @@ public class AspAssignment extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        name.prettyPrint();
+        subs.forEach(AspSubscription::prettyPrint);
+        Main.log.prettyWrite(" = ");
+        expr.prettyPrint();
     }
 
     public static AspAssignment parse(Scanner s) {
