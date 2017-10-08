@@ -28,7 +28,6 @@ public class AspStringLiteral extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
     }
 
     @Override

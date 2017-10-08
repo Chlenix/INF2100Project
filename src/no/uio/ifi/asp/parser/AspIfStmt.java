@@ -63,7 +63,6 @@ public class AspIfStmt extends AspSyntax {
             Main.log.prettyWrite("else:");
             elseSuite.prettyPrint();
         }
-
     }
 
     @Override
