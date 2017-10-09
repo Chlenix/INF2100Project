@@ -31,6 +31,7 @@ public class LogFile {
     private void writeLogLine(String data) {
         // DEBUG
         System.out.println(data);
+
         try {
             PrintWriter log =
                     new PrintWriter(
@@ -89,7 +90,7 @@ public class LogFile {
     /**
      * Make a note of entering or leaving a parser method.
      *
-     * @param nonterm The non-terminal being parsed
+     * @param nonTerm The non-terminal being parsed
      */
     public void enterParser(String nonTerm) {
         writeParseInfo(nonTerm);
@@ -116,11 +117,14 @@ public class LogFile {
             writeLogLine("Trace line " + what.lineNum + ": " + message);
     }
 
-
     public void prettyWrite(String s) {
         if (prettyLine.equals("")) {
             for (int i = 1; i <= prettyIndentation; i++)
                 prettyLine += "  ";
+        }
+        if (prettyLine.contains("!="))
+        {
+            Boolean t = true;
         }
         prettyLine += s;
     }
@@ -132,7 +136,9 @@ public class LogFile {
 
     public void prettyWriteLn() {
         if (doLogPrettyPrint)
+            System.out.println("PP> " + prettyLine);
             writeLogLine("PP> " + prettyLine);
+
         prettyLine = "";
     }
 

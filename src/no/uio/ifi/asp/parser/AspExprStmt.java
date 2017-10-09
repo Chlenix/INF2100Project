@@ -28,7 +28,9 @@ public class AspExprStmt extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        expr.prettyPrint();
+        Main.log.prettyWriteLn();
+        //TODO: Her må vi gjøre noe med writeLine..
     }
 
     @Override

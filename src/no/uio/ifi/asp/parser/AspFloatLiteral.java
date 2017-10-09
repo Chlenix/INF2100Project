@@ -28,7 +28,7 @@ public class AspFloatLiteral extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite(String.valueOf(value));
     }
 
     @Override

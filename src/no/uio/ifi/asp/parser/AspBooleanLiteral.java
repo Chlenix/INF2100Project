@@ -27,7 +27,7 @@ public class AspBooleanLiteral extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite(value ? "True" : "False");
     }
 
     @Override

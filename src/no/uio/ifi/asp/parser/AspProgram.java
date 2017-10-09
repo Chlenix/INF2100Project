@@ -32,6 +32,7 @@ public class AspProgram extends AspSyntax {
 
         for (AspStmt stmt : stmts) {
             stmt.prettyPrint();
+
             Main.log.prettyWriteLn();
         }
     }

@@ -32,6 +32,7 @@ public class Token {
                 break;
             }
         }
+
     }
 
     public static TokenKind getTokenKind(String s, TokenKind startToken, TokenKind endToken) {

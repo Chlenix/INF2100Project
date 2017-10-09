@@ -22,10 +22,14 @@ public class AspFactor extends AspSyntax {
             if (prefix != null) {
                 prefix.prettyPrint();
             }
+
+
             if (printed) {
                 factorOpr.prettyPrint();
             }
             primary.prettyPrint();
+            printed = true;
+            prefix = null;
         }
     }
 

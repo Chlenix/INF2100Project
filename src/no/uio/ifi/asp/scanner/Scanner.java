@@ -282,7 +282,9 @@ public class Scanner {
                 break;
             }
         }
-        return new Token(tk, lineNum);
+        Token op = new Token(tk, lineNum);
+        op.name = tk.toString();
+        return op;
     }
 
     private Token getVariableName(String s, int lineNum) {

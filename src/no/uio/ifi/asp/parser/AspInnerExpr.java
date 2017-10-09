@@ -32,7 +32,9 @@ public class AspInnerExpr extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite("(");
+        expr.prettyPrint();
+        Main.log.prettyWrite(")");
     }
 
     @Override

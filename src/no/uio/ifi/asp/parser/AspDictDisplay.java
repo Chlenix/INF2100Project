@@ -8,10 +8,11 @@ import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class AspDictDisplay extends AspSyntax {
 
-    HashMap<String, AspExpr> items = new HashMap<>();
+    LinkedHashMap<AspStringLiteral, AspExpr> items = new LinkedHashMap<>();
 
     AspDictDisplay(int n) {
         super(n);
@@ -25,8 +26,7 @@ public class AspDictDisplay extends AspSyntax {
 
         if (s.curToken().kind == TokenKind.stringToken) {
             while (true) {
-                skip(s, TokenKind.stringToken);
-                String key = s.curToken().stringLit;
+                AspStringLiteral key = AspStringLiteral.parse(s);
                 skip(s, TokenKind.colonToken);
                 dictDisplay.items.put(key, AspExpr.parse(s));
                 if (s.curToken().kind != TokenKind.commaToken) break;
@@ -41,8 +41,21 @@ public class AspDictDisplay extends AspSyntax {
     }
 
     @Override
-    void prettyPrint() {
-
+    void prettyPrint()
+    {
+        Main.log.prettyWrite(" {");
+        final int[] counter = {0};
+        items.forEach((key, value) -> {
+            if (counter[0]>0)
+            {
+                Main.log.prettyWrite(", ");
+            }
+            key.prettyPrint();
+            Main.log.prettyWrite(": ");
+            value.prettyPrint();
+            counter[0]++;
+        });
+        Main.log.prettyWrite("}");
     }
 
     @Override
