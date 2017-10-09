@@ -1,6 +1,7 @@
 package no.uio.ifi.asp.parser;
 
 import no.uio.ifi.asp.main.Main;
+import no.uio.ifi.asp.runtime.RuntimeFactorOpr;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -52,7 +53,28 @@ public class AspFactor extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return primaries.get(0).eval(curScope);
+        RuntimeValue cumulative = null;
+        RuntimeValue leftPrimary = primaries.get(0).eval(curScope);
+        for (AspPrimary primary : primaries.subList(1, primaries.size())) {
+            RuntimeFactorOpr factorOpr = (RuntimeFactorOpr) this.factorOpr.eval(curScope);
+            RuntimeValue nextPrimary = primary.eval(curScope);
+            switch (factorOpr.getValue()) {
+                case astToken:
+                    cumulative = leftPrimary.evalMultiply(nextPrimary, this);
+                    break;
+                case slashToken:
+                    // division
+                    break;
+                case percentToken:
+                    // modulo
+                    break;
+                case doubleSlashToken:
+                    // integer division
+                    break;
+            }
+        }
+
+        return cumulative != null ? cumulative : leftPrimary;
     }
 
     AspFactor(int n) {

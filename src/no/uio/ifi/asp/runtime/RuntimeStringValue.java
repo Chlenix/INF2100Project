@@ -6,6 +6,11 @@ public class RuntimeStringValue extends RuntimeValue {
 
     String value;
 
+    @Override
+    public String toString() {
+        return value;
+    }
+
     public RuntimeStringValue(String value) {
         this.value = value;
     }

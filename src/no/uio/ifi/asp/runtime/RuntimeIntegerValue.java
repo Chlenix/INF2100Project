@@ -38,6 +38,28 @@ public class RuntimeIntegerValue extends RuntimeValue {
     }
 
     @Override
+    public RuntimeValue evalMultiply(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeIntegerValue || v instanceof RuntimeBoolValue) {
+
+            return new RuntimeIntegerValue(this.value * v.getIntValue(v.toString(), where));
+        } else if (v instanceof RuntimeFloatValue) {
+
+            return new RuntimeFloatValue(this.value * v.getFloatValue(v.toString(), where));
+        } else if (v instanceof RuntimeStringValue) {
+
+            StringBuilder sb = new StringBuilder("");
+            // append the string x-amount of times
+            for (int i = 0; i < this.value; i++) {
+                sb.append(v);
+            }
+
+            return new RuntimeStringValue(sb.toString());
+        }
+        runtimeError("'*' undefined for " + typeName() + "!", where);
+        return null; // Required by the compiler!
+    }
+
+    @Override
     public RuntimeValue evalAdd(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeIntegerValue || v instanceof RuntimeBoolValue) {
             return new RuntimeIntegerValue(this.value + v.getIntValue(v.toString(), where));

@@ -32,14 +32,13 @@ public class AspProgram extends AspSyntax {
 
         for (AspStmt stmt : stmts) {
             stmt.prettyPrint();
-            //Main.log.prettyWriteLn();
         }
     }
 
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        //-- Must be changed in part 4:
         return null;
+
     }
 }

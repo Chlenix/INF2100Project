@@ -87,7 +87,7 @@ public class AspComparison extends AspSyntax {
                     break;
             }
         }
-        return cumulative;
+        return cumulative != null ? cumulative : leftTerm;
     }
 
 }
