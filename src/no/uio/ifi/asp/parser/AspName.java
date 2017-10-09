@@ -19,17 +19,17 @@ public class AspName extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite(value.name);
     }
 
     public static AspName parse(Scanner s) {
-        Main.log.enterParser("name");
+        Main.log.enterParser("fnName");
 
         AspName name = new AspName(s.curLineNum());
         name.value = s.curToken();
         skip(s, TokenKind.nameToken);
 
-        Main.log.leaveParser("name");
+        Main.log.leaveParser("fnName");
         return name;
     }
 

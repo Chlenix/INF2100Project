@@ -25,7 +25,7 @@ public class AspNoneLiteral extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite("None");
     }
 
     @Override

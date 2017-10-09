@@ -32,10 +32,10 @@ public class AspAndTest extends AspSyntax {
         int nPrinted = 0;
 
         for (AspNotTest ant : notTests) {
-            if (nPrinted > 0)
+            if (nPrinted++ > 0) {
                 Main.log.prettyWrite(" and ");
+            }
             ant.prettyPrint();
-            ++nPrinted;
         }
     }
 
@@ -45,13 +45,12 @@ public class AspAndTest extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-//        RuntimeValue v = notTests.get(0).eval(curScope);
-//        for (int i = 1; i < notTests.size(); ++i) {
-//            if (! v.getBoolValue("and operand",this))
-//                return v;
-//            v = notTests.get(i).eval(curScope);
-//            }
-//        return v;
-        return null;
+        RuntimeValue v = notTests.get(0).eval(curScope);
+        for (int i = 1; i < notTests.size(); ++i) {
+            if (! v.getBoolValue("and operand",this))
+                return v;
+            v = notTests.get(i).eval(curScope);
+        }
+        return v;
     }
 }

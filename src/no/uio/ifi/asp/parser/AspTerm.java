@@ -3,6 +3,7 @@ package no.uio.ifi.asp.parser;
 import no.uio.ifi.asp.main.Main;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.RuntimeTermOpr;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
@@ -30,12 +31,32 @@ public class AspTerm extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        boolean printed = false;
+        for (AspFactor f : factors) {
+            if (printed) {
+                termOpr.prettyPrint();
+            }
+            f.prettyPrint();
+            printed = true;
+        }
     }
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        RuntimeValue cumulative = factors.get(0).eval(curScope);
+        for (AspFactor factor : factors.subList(1, factors.size())) {
+            RuntimeTermOpr termOpr = (RuntimeTermOpr) this.termOpr.eval(curScope);
+            RuntimeValue nextFactor = factor.eval(curScope);
+            switch (termOpr.getValue()) {
+                case plusToken:
+                    cumulative = cumulative.evalAdd(nextFactor, this);
+                    break;
+                case minusToken:
+                    cumulative = cumulative.evalSubtract(nextFactor, this);
+                    break;
+            }
+        }
+        return cumulative;
     }
 
     AspTerm(int n) {

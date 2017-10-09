@@ -9,7 +9,7 @@ import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspReturnStmt extends AspSyntax {
 
-    AspExpr returnValue;
+    AspExpr returnValue = null;
 
     AspReturnStmt(int n) {
         super(n);
@@ -29,7 +29,9 @@ public class AspReturnStmt extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite("return ");
+        returnValue.prettyPrint();
+        Main.log.prettyWriteLn();
     }
 
     @Override

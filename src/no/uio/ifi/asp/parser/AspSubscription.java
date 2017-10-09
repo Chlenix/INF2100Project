@@ -28,7 +28,9 @@ public class AspSubscription extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite("[");
+        expr.prettyPrint();
+        Main.log.prettyWrite("]");
     }
 
     AspSubscription(int curLineNum) {

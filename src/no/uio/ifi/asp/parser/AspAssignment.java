@@ -14,11 +14,15 @@ public class AspAssignment extends AspSyntax {
 
     AspName name = null;
     AspExpr expr = null;
-    ArrayList<AspSubscription> subs = new ArrayList<>();
+    ArrayList<AspSubscription> subs = new ArrayList<>(); // optional
 
     @Override
     void prettyPrint() {
-
+        name.prettyPrint();
+        subs.forEach(AspSubscription::prettyPrint);
+        Main.log.prettyWrite(" = ");
+        expr.prettyPrint();
+        Main.log.prettyWriteLn();
     }
 
     public static AspAssignment parse(Scanner s) {

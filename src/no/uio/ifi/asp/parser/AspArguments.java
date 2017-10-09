@@ -34,7 +34,13 @@ public class AspArguments extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        int argsPrinted = 0;
+        for (AspExpr arg : expressions) {
+            arg.prettyPrint();
+            if (expressions.size() > ++argsPrinted) {
+                Main.log.prettyWrite(", ");
+            }
+        }
     }
 
     @Override

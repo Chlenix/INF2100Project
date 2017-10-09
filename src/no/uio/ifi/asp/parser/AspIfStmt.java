@@ -8,6 +8,7 @@ import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class AspIfStmt extends AspSyntax {
 
@@ -16,7 +17,7 @@ public class AspIfStmt extends AspSyntax {
     // All values inbetween are "elif"-suites
     // Collection<Condition, Statement>
 
-    HashMap<AspExpr, AspSuite> blocks = new HashMap<>();
+    LinkedHashMap<AspExpr, AspSuite> blocks = new LinkedHashMap<>();
     AspSuite elseSuite = null;
 
     AspIfStmt(int n) {
@@ -52,7 +53,21 @@ public class AspIfStmt extends AspSyntax {
 
     @Override
     void prettyPrint() {
+        Boolean firstIfPrinted = false;
+        for (HashMap.Entry<AspExpr, AspSuite> block : blocks.entrySet()) {
+            Main.log.prettyWrite(firstIfPrinted ? "elif " : "if " );
+            if (!firstIfPrinted)
+                firstIfPrinted = true;
 
+
+            block.getKey().prettyPrint();
+            Main.log.prettyWrite(":");
+            block.getValue().prettyPrint();
+        }
+        if (elseSuite != null) {
+            Main.log.prettyWrite("else:");
+            elseSuite.prettyPrint();
+        }
     }
 
     @Override

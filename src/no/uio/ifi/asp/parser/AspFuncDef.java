@@ -8,10 +8,11 @@ import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class AspFuncDef extends AspSyntax {
 
-    AspName name = null;
+    AspName fnName = null;
     ArrayList<AspName> args = new ArrayList<>();
     AspSuite body = null;
 
@@ -24,7 +25,7 @@ public class AspFuncDef extends AspSyntax {
 
         AspFuncDef funcDef = new AspFuncDef(s.curLineNum());
         skip(s, TokenKind.defToken);
-        funcDef.name = AspName.parse(s);
+        funcDef.fnName = AspName.parse(s);
         skip(s, TokenKind.leftParToken);
 
         if (s.curToken().kind == TokenKind.nameToken) {
@@ -46,7 +47,21 @@ public class AspFuncDef extends AspSyntax {
 
     @Override
     void prettyPrint() {
+        Main.log.prettyWrite("def ");
+        fnName.prettyPrint();
 
+        Main.log.prettyWrite("(");
+
+        int argsPrinted = 0;
+        for (AspName arg : args) {
+            arg.prettyPrint();
+            if (args.size() > ++argsPrinted) {
+                Main.log.prettyWrite(", ");
+            }
+        }
+        Main.log.prettyWrite("):");
+        body.prettyPrint();
+        Main.log.prettyWriteLn();
     }
 
     @Override

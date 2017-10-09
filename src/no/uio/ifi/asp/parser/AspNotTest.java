@@ -31,11 +31,13 @@ public class AspNotTest extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite(negativize ? "not ": "");
+        comparison.prettyPrint();
     }
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        RuntimeValue rv = comparison.eval(curScope);
+        return this.negativize ? rv.evalNegate(this) : rv;
     }
 }

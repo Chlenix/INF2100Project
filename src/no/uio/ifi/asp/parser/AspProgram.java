@@ -29,13 +29,16 @@ public class AspProgram extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        //-- Must be changed in part 2:
+
+        for (AspStmt stmt : stmts) {
+            stmt.prettyPrint();
+        }
     }
 
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        //-- Must be changed in part 4:
         return null;
+
     }
 }

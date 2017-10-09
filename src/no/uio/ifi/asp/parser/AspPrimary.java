@@ -14,7 +14,10 @@ public class AspPrimary extends AspSyntax {
     AspAtom atom = null;
     @Override
     void prettyPrint() {
-
+        atom.prettyPrint();
+        for (AspPrimarySuffix suffix : suffixes) {
+            suffix.prettyPrint();
+        }
     }
 
     public static AspPrimary parse(Scanner s) {
@@ -32,7 +35,13 @@ public class AspPrimary extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        RuntimeValue rv = atom.eval(curScope);
+        return rv;
+        // someArray for suffixes
+        // for loop
+            // eval someArray[5], store in builder
+            // eval builder[3], store in builder (builder has someArray[5] so someArray[5][3])
+            // eval builder(), store in builder (builder "someArray[5][3]" returned a callable)
     }
 
     AspPrimary(int n) {
