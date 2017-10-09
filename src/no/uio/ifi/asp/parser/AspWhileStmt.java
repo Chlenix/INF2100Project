@@ -31,7 +31,10 @@ public class AspWhileStmt extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite("while ");
+        condition.prettyPrint();
+        Main.log.prettyWrite(":");
+        body.prettyPrint();
     }
 
     @Override

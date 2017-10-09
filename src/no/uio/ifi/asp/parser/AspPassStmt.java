@@ -25,7 +25,8 @@ public class AspPassStmt extends AspSyntax {
 
     @Override
     void prettyPrint() {
-
+        Main.log.prettyWrite("pass");
+        Main.log.prettyWriteLn();
     }
 
     @Override

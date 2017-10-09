@@ -24,7 +24,7 @@ public class AspFactorPrefix extends AspSyntax {
 
     @Override
     void prettyPrint() {
-        Main.log.prettyWrite(value.name);
+        Main.log.prettyWrite(value.kind.toString());
     }
 
     @Override

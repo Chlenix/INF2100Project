@@ -22,6 +22,7 @@ public class AspAssignment extends AspSyntax {
         subs.forEach(AspSubscription::prettyPrint);
         Main.log.prettyWrite(" = ");
         expr.prettyPrint();
+        Main.log.prettyWriteLn();
     }
 
     public static AspAssignment parse(Scanner s) {

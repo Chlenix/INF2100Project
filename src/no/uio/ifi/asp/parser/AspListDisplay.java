@@ -38,7 +38,18 @@ public class AspListDisplay extends AspSyntax {
 
     @Override
     void prettyPrint() {
+        Main.log.prettyWrite("[");
 
+        int itemsLength = items.size();
+        for (int i = 0; i < itemsLength; i++)
+        {
+            items.get(i).prettyPrint();
+            if ((i+1) < itemsLength)
+            {
+                Main.log.prettyWrite(", ");
+            }
+        }
+        Main.log.prettyWrite("]");
     }
 
     @Override

@@ -3,7 +3,7 @@ package no.uio.ifi.asp.runtime;
 import no.uio.ifi.asp.parser.AspSyntax;
 
 public class RuntimeBoolValue extends RuntimeValue {
-    boolean boolValue;
+    Boolean boolValue;
 
     public RuntimeBoolValue(boolean v) {
         boolValue = v;
@@ -27,6 +27,10 @@ public class RuntimeBoolValue extends RuntimeValue {
         return boolValue;
     }
 
+    @Override
+    public long getIntValue(String what, AspSyntax where) {
+        return boolValue ? Long.valueOf(1) : Long.valueOf(0);
+    }
 
     @Override
     public RuntimeValue evalEqual(RuntimeValue v, AspSyntax where) {
@@ -38,6 +42,10 @@ public class RuntimeBoolValue extends RuntimeValue {
         }
     }
 
+    @Override
+    public RuntimeValue evalNegate(AspSyntax where) {
+        return new RuntimeBoolValue(!boolValue);
+    }
 
     @Override
     public RuntimeValue evalNot(AspSyntax where) {

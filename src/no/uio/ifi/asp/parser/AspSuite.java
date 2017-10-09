@@ -40,7 +40,6 @@ public class AspSuite extends AspSyntax {
         Main.log.prettyWriteLn();
         Main.log.prettyIndent();
         for (AspStmt stmt : statements) {
-            // TODO
             stmt.prettyPrint();
         }
         Main.log.prettyDedent();

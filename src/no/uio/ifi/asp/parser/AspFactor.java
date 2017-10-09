@@ -19,13 +19,16 @@ public class AspFactor extends AspSyntax {
     void prettyPrint() {
         boolean printed = false;
         for (AspPrimary primary : primaries) {
-            if (prefix != null) {
+            if (prefix != null && !printed) {
                 prefix.prettyPrint();
             }
+
             if (printed) {
                 factorOpr.prettyPrint();
             }
+
             primary.prettyPrint();
+            printed = true;
         }
     }
 
@@ -49,7 +52,7 @@ public class AspFactor extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        return primaries.get(0).eval(curScope);
     }
 
     AspFactor(int n) {

@@ -31,15 +31,15 @@ public class AspPrimarySuffix<T extends AspSyntax> extends AspSyntax {
 
     @Override
     void prettyPrint() {
-        String opening = "(";
-        String closing = ")";
         if (suffix instanceof AspSubscription) {
-            opening = "[";
-            closing = "]";
+            suffix.prettyPrint();
+        } else {
+            String opening = "(";
+            String closing = ")";
+            Main.log.prettyWrite(opening);
+            suffix.prettyPrint();
+            Main.log.prettyWrite(closing);
         }
-        Main.log.prettyWrite(opening);
-        suffix.prettyPrint();
-        Main.log.prettyWrite(closing);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class AspAtom<T extends AspSyntax> extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        return t.eval(curScope);
     }
 
     AspAtom(int n) {

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import no.uio.ifi.asp.main.*;
 import no.uio.ifi.asp.parser.AspSyntax;
 
+// 2.3 Spesielle ting i Asp
+// 3.4 Del 3.
+
+
 public abstract class RuntimeValue {
     abstract protected String typeName();
 

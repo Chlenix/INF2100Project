@@ -61,6 +61,7 @@ public class AspFuncDef extends AspSyntax {
         }
         Main.log.prettyWrite("):");
         body.prettyPrint();
+        Main.log.prettyWriteLn();
     }
 
     @Override
