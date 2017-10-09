@@ -4,6 +4,8 @@ import no.uio.ifi.asp.parser.AspSyntax;
 
 public class RuntimeIntegerValue extends RuntimeValue {
 
+    // 0
+    //
     Long value;
 
     public RuntimeIntegerValue(long value) {
@@ -35,6 +37,12 @@ public class RuntimeIntegerValue extends RuntimeValue {
     @Override
     public String getStringValue(String what, AspSyntax where) {
         return value.toString();
+    }
+
+    @Override
+    public RuntimeValue evalNegate(AspSyntax where)
+    {
+        return new RuntimeIntegerValue(value * -1);
     }
 
     @Override

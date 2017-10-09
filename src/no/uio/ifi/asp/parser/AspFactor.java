@@ -1,12 +1,10 @@
 package no.uio.ifi.asp.parser;
 
 import no.uio.ifi.asp.main.Main;
-import no.uio.ifi.asp.runtime.RuntimeFactorOpr;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.Token;
+import no.uio.ifi.asp.scanner.TokenKind;
 
 import java.util.ArrayList;
 
@@ -53,14 +51,25 @@ public class AspFactor extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        RuntimeValue cumulative = null;
+        RuntimeValue result = null;
         RuntimeValue leftPrimary = primaries.get(0).eval(curScope);
+        //if (prefix != null) {
+        //    if (prefix.value.kind == TokenKind.minusToken) {
+        //        leftPrimary = leftPrimary.evalNegate(this);
+        //    }
+        //}
         for (AspPrimary primary : primaries.subList(1, primaries.size())) {
+            if (prefix != null) {
+                if (prefix.value.kind == TokenKind.minusToken) {
+                    leftPrimary = leftPrimary.evalNegate(this);
+                }
+            }
+
             RuntimeFactorOpr factorOpr = (RuntimeFactorOpr) this.factorOpr.eval(curScope);
             RuntimeValue nextPrimary = primary.eval(curScope);
             switch (factorOpr.getValue()) {
                 case astToken:
-                    cumulative = leftPrimary.evalMultiply(nextPrimary, this);
+                    result = leftPrimary.evalMultiply(nextPrimary, this);
                     break;
                 case slashToken:
                     // division
@@ -72,9 +81,10 @@ public class AspFactor extends AspSyntax {
                     // integer division
                     break;
             }
+            leftPrimary = result;
         }
 
-        return cumulative != null ? cumulative : leftPrimary;
+        return result != null ? result : leftPrimary;
     }
 
     AspFactor(int n) {

@@ -14,6 +14,12 @@ public class RuntimeFloatValue extends RuntimeValue {
         return value.toString();
     }
 
+    @Override
+    public RuntimeValue evalNegate(AspSyntax where)
+    {
+        return new RuntimeFloatValue(value * -1);
+    }
+
     public double getFloatValue(String what, AspSyntax where) {
         return value;
     }

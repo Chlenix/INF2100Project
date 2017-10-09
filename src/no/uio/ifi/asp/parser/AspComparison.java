@@ -50,7 +50,7 @@ public class AspComparison extends AspSyntax {
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         RuntimeBoolValue cumulative = null;
-
+        // 2
         RuntimeValue leftTerm = terms.get(0).eval(curScope);
         int i = 0;
         for (AspTerm term : terms.subList(1, terms.size())) {
