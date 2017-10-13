@@ -1,6 +1,7 @@
 package no.uio.ifi.asp.parser;
 
 import no.uio.ifi.asp.main.Main;
+import no.uio.ifi.asp.runtime.RuntimeListValue;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -54,6 +55,14 @@ public class AspListDisplay extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        ArrayList<RuntimeValue> list = new ArrayList<>();
+        items.forEach(item -> {
+            try {
+                list.add(item.eval(curScope));
+            } catch (RuntimeReturnValue runtimeReturnValue) {
+                runtimeReturnValue.printStackTrace();
+            }
+        });
+        return new RuntimeListValue(list);
     }
 }

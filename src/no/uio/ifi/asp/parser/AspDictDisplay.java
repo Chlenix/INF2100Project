@@ -1,6 +1,7 @@
 package no.uio.ifi.asp.parser;
 
 import no.uio.ifi.asp.main.Main;
+import no.uio.ifi.asp.runtime.RuntimeDictValue;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -12,7 +13,7 @@ import java.util.LinkedHashMap;
 
 public class AspDictDisplay extends AspSyntax {
 
-    LinkedHashMap<AspStringLiteral, AspExpr> items = new LinkedHashMap<>();
+    HashMap<AspStringLiteral, AspExpr> items = new HashMap<>();
 
     AspDictDisplay(int n) {
         super(n);
@@ -41,25 +42,22 @@ public class AspDictDisplay extends AspSyntax {
     }
 
     @Override
-    void prettyPrint()
-    {
-        Main.log.prettyWrite(" {");
+    void prettyPrint() {
+        Main.log.prettyWrite("{");
         final int[] counter = {0};
         items.forEach((key, value) -> {
-            if (counter[0]>0)
-            {
+            if (counter[0]++ > 0) {
                 Main.log.prettyWrite(", ");
             }
             key.prettyPrint();
             Main.log.prettyWrite(": ");
             value.prettyPrint();
-            counter[0]++;
         });
         Main.log.prettyWrite("}");
     }
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        return new RuntimeDictValue(items);
     }
 }

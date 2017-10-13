@@ -51,10 +51,11 @@ public class AspComparison extends AspSyntax {
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         RuntimeValue accumulator = terms.get(0).eval(curScope);
 
+        RuntimeValue lastTerm = accumulator;
         int i = 0;
         for (AspTerm term : terms.subList(1, terms.size())) {
             RuntimeCompareOpr compOpr = (RuntimeCompareOpr) this.compOpr.get(i++).eval(curScope);
-            RuntimeValue rightTerm = term.eval(curScope);
+            RuntimeValue nextTerm = term.eval(curScope);
 
             /* Each case must be done for
             * AspStringLiteral
@@ -67,24 +68,29 @@ public class AspComparison extends AspSyntax {
 
             switch (compOpr.getValue()) {
                 case lessToken:
-                    accumulator = accumulator.evalLess(rightTerm, this);
+                    accumulator = lastTerm.evalLess(nextTerm, this);
                     break;
                 case greaterToken:
-                    accumulator = accumulator.evalGreater(rightTerm, this);
+                    accumulator = lastTerm.evalGreater(nextTerm, this);
                     break;
                 case doubleEqualToken:
-                    accumulator = accumulator.evalEqual(rightTerm, this);
+                    accumulator = lastTerm.evalEqual(nextTerm, this);
                     break;
                 case greaterEqualToken:
-                    accumulator = accumulator.evalGreaterEqual(rightTerm, this);
+                    accumulator = lastTerm.evalGreaterEqual(nextTerm, this);
                     break;
                 case lessEqualToken:
-                    accumulator = accumulator.evalLessEqual(rightTerm, this);
+                    accumulator = lastTerm.evalLessEqual(nextTerm, this);
                     break;
                 case notEqualToken:
-                    accumulator = accumulator.evalNotEqual(rightTerm, this);
+                    accumulator = lastTerm.evalNotEqual(nextTerm, this);
                     break;
             }
+            if (!accumulator.getBoolValue("comparison accumulator", this)) {
+                // the entire comparison is false because 1 condition is false
+                break;
+            }
+            lastTerm = nextTerm;
         }
         return accumulator;
     }

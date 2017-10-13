@@ -9,9 +9,9 @@ import no.uio.ifi.asp.scanner.TokenKind;
 
 import java.util.ArrayList;
 
-public class AspPrimarySuffix<T extends AspSyntax> extends AspSyntax {
+public class AspPrimarySuffix extends AspSyntax {
     // either a subscription or an argument
-    T suffix = null;
+    AspSyntax suffix = null;
 
     public static AspPrimarySuffix parse(Scanner s) {
         Main.log.enterParser("primary suffix");

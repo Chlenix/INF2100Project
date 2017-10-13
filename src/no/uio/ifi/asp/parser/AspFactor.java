@@ -1,12 +1,10 @@
 package no.uio.ifi.asp.parser;
 
 import no.uio.ifi.asp.main.Main;
-import no.uio.ifi.asp.runtime.RuntimeFactorOpr;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.Token;
+import no.uio.ifi.asp.scanner.TokenKind;
 
 import java.util.ArrayList;
 
@@ -54,7 +52,13 @@ public class AspFactor extends AspSyntax {
         RuntimeValue accumulator = primaries.get(0).eval(curScope);
 
         // if prefix -, negate accumulator
+        if (prefix != null) {
+            RuntimePrefixValue prefixValue = (RuntimePrefixValue) prefix.eval(curScope);
 
+            if (prefixValue.getValue() == TokenKind.minusToken) {
+                accumulator = accumulator.evalNegate(this);
+            }
+        }
         int i = 0;
         for (AspPrimary primary : primaries.subList(1, primaries.size())) {
             RuntimeFactorOpr factorOpr = (RuntimeFactorOpr) this.factorOpr.get(i++).eval(curScope);
@@ -64,15 +68,16 @@ public class AspFactor extends AspSyntax {
                     accumulator = accumulator.evalMultiply(nextPrimary, this);
                     break;
                 case slashToken:
-                    // division
+                    accumulator = accumulator.evalDivide(nextPrimary, this);
                     break;
                 case percentToken:
-                    // modulo
+                    accumulator = accumulator.evalModulo(nextPrimary, this);
                     break;
                 case doubleSlashToken:
-                    // integer division
+                    accumulator = accumulator.evalIntDivide(nextPrimary, this);
                     break;
             }
+
         }
 
         return accumulator;
