@@ -25,7 +25,8 @@ public class AspPrimary extends AspSyntax {
 
         AspPrimary primary = new AspPrimary(s.curLineNum());
         primary.atom = AspAtom.parse(s);
-        while (s.curToken().kind == TokenKind.leftParToken || s.curToken().kind == TokenKind.leftBracketToken) {
+        while (s.curToken().kind == TokenKind.leftParToken
+                || s.curToken().kind == TokenKind.leftBracketToken) {
             primary.suffixes.add(AspPrimarySuffix.parse(s));
         }
 
@@ -35,9 +36,15 @@ public class AspPrimary extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        RuntimeValue rv = atom.eval(curScope);
-        return rv;
-        // someArray for suffixes
+        RuntimeValue primary = atom.eval(curScope);
+
+        for (AspPrimarySuffix suffix : suffixes) {
+            RuntimeValue index = suffix.eval(curScope);
+            primary = primary.evalSubscription(index, this);
+        }
+
+        return primary;
+        // someArray[5][3]() for suffixes
         // for loop
             // eval someArray[5], store in builder
             // eval builder[3], store in builder (builder has someArray[5] so someArray[5][3])

@@ -1,7 +1,5 @@
 package no.uio.ifi.asp.runtime;
 
-import no.uio.ifi.asp.main.Main;
-import no.uio.ifi.asp.parser.AspExpr;
 import no.uio.ifi.asp.parser.AspSyntax;
 
 import java.util.ArrayList;
@@ -31,6 +29,30 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeValue evalNegate(AspSyntax where) {
         return super.evalNegate(where);
+    }
+
+    @Override
+    public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeIntegerValue) {
+            int i = (int) v.getIntValue(typeName(), where);
+            return list.get(i);
+        }
+        return super.evalSubscription(v, where);
+    }
+
+    @Override
+    public RuntimeValue evalMultiply(RuntimeValue v, AspSyntax where) {
+
+        if (v instanceof RuntimeIntegerValue) {
+            // reverse loop so that v.getIntValue is only evaluated once
+            ArrayList<RuntimeValue> newList = new ArrayList<>();
+            for (long i = v.getIntValue(typeName(), where) - 1; i >= 0; --i) {
+                newList.addAll(list);
+            }
+            return new RuntimeListValue(newList);
+        }
+
+        return super.evalMultiply(v, where);
     }
 
     @Override

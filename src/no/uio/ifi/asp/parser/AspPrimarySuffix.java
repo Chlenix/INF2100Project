@@ -44,7 +44,7 @@ public class AspPrimarySuffix extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        return suffix.eval(curScope);
     }
 
     AspPrimarySuffix(int n) {

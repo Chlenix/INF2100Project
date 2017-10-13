@@ -1,5 +1,7 @@
 package no.uio.ifi.asp.runtime;
 
+import no.uio.ifi.asp.parser.AspSyntax;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -9,6 +11,16 @@ public class RuntimeDictValue extends RuntimeValue {
 
     public RuntimeDictValue(LinkedHashMap<RuntimeValue, RuntimeValue> dict) {
         this.dict = dict;
+    }
+
+    @Override
+    public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
+
+        if (v instanceof RuntimeStringValue) {
+            return dict.get(v);
+        }
+
+        return super.evalSubscription(v, where);
     }
 
     @Override

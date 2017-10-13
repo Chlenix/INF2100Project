@@ -12,6 +12,17 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
+    public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
+
+        if (v instanceof RuntimeIntegerValue) {
+            int i = (int) v.getIntValue(typeName(), where);
+            return new RuntimeStringValue(String.valueOf(value.charAt(i)));
+        }
+
+        return super.evalSubscription(v, where);
+    }
+
+    @Override
     public RuntimeValue evalNegate(AspSyntax where) {
         return super.evalNegate(where);
     }

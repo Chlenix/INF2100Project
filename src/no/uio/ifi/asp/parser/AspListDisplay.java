@@ -56,13 +56,9 @@ public class AspListDisplay extends AspSyntax {
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         ArrayList<RuntimeValue> list = new ArrayList<>();
-        items.forEach(item -> {
-            try {
-                list.add(item.eval(curScope));
-            } catch (RuntimeReturnValue runtimeReturnValue) {
-                runtimeReturnValue.printStackTrace();
-            }
-        });
+        for (AspExpr item : items) {
+            list.add(item.eval(curScope));
+        }
         return new RuntimeListValue(list);
     }
 }
