@@ -8,7 +8,7 @@ public class RuntimeStringValue extends RuntimeValue {
 
     @Override
     public String toString() {
-        return value;
+        return "\'" + value + "\'";
     }
 
     @Override

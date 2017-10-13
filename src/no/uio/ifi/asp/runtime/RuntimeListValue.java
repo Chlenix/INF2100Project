@@ -16,7 +16,16 @@ public class RuntimeListValue extends RuntimeValue {
 
     @Override
     public String toString() {
-        return "glo";
+        StringBuilder sb = new StringBuilder("[");
+
+        String separator = "";
+        for (RuntimeValue rv : list) {
+            sb.append(separator);
+            separator = ", ";
+            sb.append(rv.toString());
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
     @Override

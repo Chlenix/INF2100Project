@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 
 public class AspDictDisplay extends AspSyntax {
 
-    HashMap<AspStringLiteral, AspExpr> items = new HashMap<>();
+    LinkedHashMap<AspStringLiteral, AspExpr> items = new LinkedHashMap<>();
 
     AspDictDisplay(int n) {
         super(n);
@@ -58,6 +58,12 @@ public class AspDictDisplay extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return new RuntimeDictValue(items);
+        LinkedHashMap<RuntimeValue, RuntimeValue> dict = new LinkedHashMap<>();
+
+        for (HashMap.Entry<AspStringLiteral, AspExpr> entry: items.entrySet()) {
+            dict.put(entry.getKey().eval(curScope), entry.getValue().eval(curScope));
+        }
+
+        return new RuntimeDictValue(dict);
     }
 }
