@@ -7,9 +7,9 @@ import java.util.LinkedHashMap;
 
 public class RuntimeDictValue extends RuntimeValue {
 
-    LinkedHashMap<RuntimeValue, RuntimeValue> dict = new LinkedHashMap<>();
+    LinkedHashMap<String, RuntimeValue> dict = new LinkedHashMap<>();
 
-    public RuntimeDictValue(LinkedHashMap<RuntimeValue, RuntimeValue> dict) {
+    public RuntimeDictValue(LinkedHashMap<String, RuntimeValue> dict) {
         this.dict = dict;
     }
 
@@ -17,7 +17,7 @@ public class RuntimeDictValue extends RuntimeValue {
     public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
 
         if (v instanceof RuntimeStringValue) {
-            return dict.get(v);
+            return dict.get(v.getStringValue(typeName(), where));
         }
 
         return super.evalSubscription(v, where);
@@ -27,10 +27,17 @@ public class RuntimeDictValue extends RuntimeValue {
     public String toString() {
         StringBuilder sb = new StringBuilder("{");
         String separator = "";
-        for (HashMap.Entry<RuntimeValue, RuntimeValue> entry : dict.entrySet()) {
+        for (HashMap.Entry entry : dict.entrySet()) {
+            // separator
             sb.append(separator);
             separator = ", ";
-            sb.append(entry.getKey().toString());
+
+            // key
+            sb.append("\'");
+            sb.append(entry.getKey());
+            sb.append("\'");
+
+            // value
             sb.append(": ");
             sb.append(entry.getValue().toString());
         }

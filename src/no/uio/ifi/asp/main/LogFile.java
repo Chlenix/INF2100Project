@@ -30,7 +30,7 @@ public class LogFile {
 
     private void writeLogLine(String data) {
         // DEBUG
-        System.out.println(data);
+        // System.out.println(data);
         try {
             PrintWriter log =
                     new PrintWriter(

@@ -58,10 +58,12 @@ public class AspDictDisplay extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        LinkedHashMap<RuntimeValue, RuntimeValue> dict = new LinkedHashMap<>();
+        LinkedHashMap<String, RuntimeValue> dict = new LinkedHashMap<>();
 
         for (HashMap.Entry<AspStringLiteral, AspExpr> entry: items.entrySet()) {
-            dict.put(entry.getKey().eval(curScope), entry.getValue().eval(curScope));
+            dict.put(
+                    entry.getKey().eval(curScope).getStringValue("string", this),
+                    entry.getValue().eval(curScope));
         }
 
         return new RuntimeDictValue(dict);
