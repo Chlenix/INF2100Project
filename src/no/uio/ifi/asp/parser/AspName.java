@@ -23,13 +23,13 @@ public class AspName extends AspSyntax {
     }
 
     public static AspName parse(Scanner s) {
-        Main.log.enterParser("fnName");
+        Main.log.enterParser("name");
 
         AspName name = new AspName(s.curLineNum());
         name.value = s.curToken();
         skip(s, TokenKind.nameToken);
 
-        Main.log.leaveParser("fnName");
+        Main.log.leaveParser("name");
         return name;
     }
 

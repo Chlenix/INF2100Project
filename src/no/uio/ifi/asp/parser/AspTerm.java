@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class AspTerm extends AspSyntax {
 
     ArrayList<AspFactor> factors = new ArrayList<>();
-    AspTermOpr termOpr = null;
+    ArrayList<AspTermOpr> termOpr = new ArrayList<>();
 
     static AspTerm parse(Scanner s) {
         Main.log.enterParser("term");
@@ -21,7 +21,7 @@ public class AspTerm extends AspSyntax {
         while (true) {
             term.factors.add(AspFactor.parse(s));
             if (!s.isTermOpr()) break;
-            term.termOpr = AspTermOpr.parse(s);
+            term.termOpr.add(AspTermOpr.parse(s));
             skip(s, s.curToken().kind);
         }
 
@@ -31,32 +31,41 @@ public class AspTerm extends AspSyntax {
 
     @Override
     void prettyPrint() {
-        boolean printed = false;
-        for (AspFactor f : factors) {
-            if (printed) {
-                termOpr.prettyPrint();
-            }
-            f.prettyPrint();
-            printed = true;
+//        boolean printed = false;
+//        for (AspFactor f : factors) {
+//            if (printed) {
+//                termOpr.prettyPrint();
+//            }
+//            f.prettyPrint();
+//            printed = true;
+//        }
+        int size = factors.size();
+        for (int i = 0; i < size; i++) {
+            factors.get(i).prettyPrint();
+
+            if (i + 1 < size)
+                termOpr.get(i).prettyPrint();
         }
     }
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        RuntimeValue cumulative = factors.get(0).eval(curScope);
+        RuntimeValue accumulator = factors.get(0).eval(curScope);
+
+        int i = 0;
         for (AspFactor factor : factors.subList(1, factors.size())) {
-            RuntimeTermOpr termOpr = (RuntimeTermOpr) this.termOpr.eval(curScope);
+            RuntimeTermOpr termOpr = (RuntimeTermOpr) this.termOpr.get(i++).eval(curScope);
             RuntimeValue nextFactor = factor.eval(curScope);
             switch (termOpr.getValue()) {
                 case plusToken:
-                    cumulative = cumulative.evalAdd(nextFactor, this);
+                    accumulator = accumulator.evalAdd(nextFactor, this);
                     break;
                 case minusToken:
-                    cumulative = cumulative.evalSubtract(nextFactor, this);
+                    accumulator = accumulator.evalSubtract(nextFactor, this);
                     break;
             }
         }
-        return cumulative;
+        return accumulator;
     }
 
     AspTerm(int n) {

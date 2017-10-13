@@ -49,9 +49,8 @@ public class AspComparison extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        RuntimeBoolValue cumulative = null;
+        RuntimeValue accumulator = terms.get(0).eval(curScope);
 
-        RuntimeValue leftTerm = terms.get(0).eval(curScope);
         int i = 0;
         for (AspTerm term : terms.subList(1, terms.size())) {
             RuntimeCompareOpr compOpr = (RuntimeCompareOpr) this.compOpr.get(i++).eval(curScope);
@@ -68,26 +67,26 @@ public class AspComparison extends AspSyntax {
 
             switch (compOpr.getValue()) {
                 case lessToken:
-                    cumulative = (RuntimeBoolValue) leftTerm.evalLess(rightTerm, this);
+                    accumulator = accumulator.evalLess(rightTerm, this);
                     break;
                 case greaterToken:
-                    cumulative = (RuntimeBoolValue) leftTerm.evalGreater(rightTerm, this);
+                    accumulator = accumulator.evalGreater(rightTerm, this);
                     break;
                 case doubleEqualToken:
-                    cumulative = (RuntimeBoolValue) leftTerm.evalEqual(rightTerm, this);
+                    accumulator = accumulator.evalEqual(rightTerm, this);
                     break;
                 case greaterEqualToken:
-                    cumulative = (RuntimeBoolValue) leftTerm.evalGreaterEqual(rightTerm, this);
+                    accumulator = accumulator.evalGreaterEqual(rightTerm, this);
                     break;
                 case lessEqualToken:
-                    cumulative = (RuntimeBoolValue) leftTerm.evalLessEqual(rightTerm, this);
+                    accumulator = accumulator.evalLessEqual(rightTerm, this);
                     break;
                 case notEqualToken:
-                    cumulative = (RuntimeBoolValue) leftTerm.evalNotEqual(rightTerm, this);
+                    accumulator = accumulator.evalNotEqual(rightTerm, this);
                     break;
             }
         }
-        return cumulative != null ? cumulative : leftTerm;
+        return accumulator;
     }
 
 }

@@ -13,23 +13,21 @@ import java.util.ArrayList;
 public class AspFactor extends AspSyntax {
 
     ArrayList<AspPrimary> primaries = new ArrayList<>();
-    AspFactorOpr factorOpr = null;
+    ArrayList <AspFactorOpr> factorOpr = new ArrayList<>();
     AspFactorPrefix prefix = null;
 
     @Override
     void prettyPrint() {
+        int size = primaries.size();
         boolean printed = false;
-        for (AspPrimary primary : primaries) {
-            if (prefix != null && !printed) {
+        for (int i = 0; i < size; i++) {
+            if (!printed && prefix != null) {
                 prefix.prettyPrint();
+                printed = true;
             }
-
-            if (printed) {
-                factorOpr.prettyPrint();
-            }
-
-            primary.prettyPrint();
-            printed = true;
+            primaries.get(i).prettyPrint();
+            if (i + 1 < size)
+                factorOpr.get(i).prettyPrint();
         }
     }
 
@@ -43,7 +41,7 @@ public class AspFactor extends AspSyntax {
         while (true) {
             factor.primaries.add(AspPrimary.parse(s));
             if (!s.isFactorOpr()) break;
-            factor.factorOpr = AspFactorOpr.parse(s);
+            factor.factorOpr.add(AspFactorOpr.parse(s));
             skip(s, s.curToken().kind);
         }
 
@@ -53,14 +51,17 @@ public class AspFactor extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        RuntimeValue cumulative = null;
-        RuntimeValue leftPrimary = primaries.get(0).eval(curScope);
+        RuntimeValue accumulator = primaries.get(0).eval(curScope);
+
+        // if prefix -, negate accumulator
+
+        int i = 0;
         for (AspPrimary primary : primaries.subList(1, primaries.size())) {
-            RuntimeFactorOpr factorOpr = (RuntimeFactorOpr) this.factorOpr.eval(curScope);
+            RuntimeFactorOpr factorOpr = (RuntimeFactorOpr) this.factorOpr.get(i++).eval(curScope);
             RuntimeValue nextPrimary = primary.eval(curScope);
             switch (factorOpr.getValue()) {
                 case astToken:
-                    cumulative = leftPrimary.evalMultiply(nextPrimary, this);
+                    accumulator = accumulator.evalMultiply(nextPrimary, this);
                     break;
                 case slashToken:
                     // division
@@ -74,7 +75,7 @@ public class AspFactor extends AspSyntax {
             }
         }
 
-        return cumulative != null ? cumulative : leftPrimary;
+        return accumulator;
     }
 
     AspFactor(int n) {
