@@ -39,6 +39,6 @@ public class AspSubscription extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        return expr.eval(curScope);
     }
 }

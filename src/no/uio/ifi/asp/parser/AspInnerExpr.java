@@ -39,6 +39,6 @@ public class AspInnerExpr extends AspSyntax {
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        return expr.eval(curScope);
     }
 }

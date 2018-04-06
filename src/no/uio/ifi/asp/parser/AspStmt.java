@@ -6,9 +6,9 @@ import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
-public class AspStmt<T extends AspSyntax> extends AspSyntax {
+public class AspStmt extends AspSyntax {
 
-    T t = null;
+    AspSyntax t = null;
 
     public AspStmt(int lineNum) {
         super(lineNum);

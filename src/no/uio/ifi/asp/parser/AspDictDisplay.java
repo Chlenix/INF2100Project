@@ -1,6 +1,7 @@
 package no.uio.ifi.asp.parser;
 
 import no.uio.ifi.asp.main.Main;
+import no.uio.ifi.asp.runtime.RuntimeDictValue;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -41,25 +42,30 @@ public class AspDictDisplay extends AspSyntax {
     }
 
     @Override
-    void prettyPrint()
-    {
-        Main.log.prettyWrite(" {");
+    void prettyPrint() {
+        Main.log.prettyWrite("{");
         final int[] counter = {0};
         items.forEach((key, value) -> {
-            if (counter[0]>0)
-            {
+            if (counter[0]++ > 0) {
                 Main.log.prettyWrite(", ");
             }
             key.prettyPrint();
             Main.log.prettyWrite(": ");
             value.prettyPrint();
-            counter[0]++;
         });
         Main.log.prettyWrite("}");
     }
 
     @Override
     RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        LinkedHashMap<String, RuntimeValue> dict = new LinkedHashMap<>();
+
+        for (HashMap.Entry<AspStringLiteral, AspExpr> entry: items.entrySet()) {
+            dict.put(
+                    entry.getKey().eval(curScope).getStringValue("string", this),
+                    entry.getValue().eval(curScope));
+        }
+
+        return new RuntimeDictValue(dict);
     }
 }
